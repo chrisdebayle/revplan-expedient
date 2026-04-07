@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expedient — Dallas Territory Revenue Plan</title>
+<style>
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#080808;color:#f0f0f0;}
+
+/* ===== PALETTE ===== */
+:root{
+  --bg:#080808;
+  --bg-card:#131313;
+  --bg-sidebar:#0c0c0c;
+  --red:#D12020;
+  --red-dim:rgba(209,32,32,0.13);
+  --red-glow:rgba(209,32,32,0.28);
+  --text:#f0f0f0;
+  --sub:#9a9a9a;
+  --muted:#555;
+  --border:rgba(255,255,255,0.07);
+  --green:#2ec27e;
+  --blue:#4da8f5;
+}
+
+/* ===== LAYOUT ===== */
+.app{display:flex;height:100vh;width:100vw;}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:248px;min-width:248px;
+  background:var(--bg-sidebar);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  z-index:10;overflow:hidden;
+}
+.sidebar-logo{
+  padding:24px 20px 18px;
+  border-bottom:1px solid var(--border);
+}
+.sidebar-logo img{height:26px;display:block;}
+.sidebar-nav{flex:1;padding:12px 0;overflow-y:auto;}
+.sidebar-nav::-webkit-scrollbar{width:2px;}
+.sidebar-nav::-webkit-scrollbar-thumb{background:var(--muted);border-radius:2px;}
+.chapter-btn{
+  display:block;width:100%;padding:10px 20px;
+  background:none;border:none;
+  color:var(--sub);font-size:12.5px;font-weight:500;
+  text-align:left;cursor:pointer;
+  transition:all 0.2s;letter-spacing:0.01em;line-height:1.3;
+  border-left:3px solid transparent;
+}
+.chapter-btn:hover{color:var(--text);background:rgba(255,255,255,0.03);}
+.chapter-btn.active{color:var(--red);border-left-color:var(--red);background:var(--red-dim);}
+.sidebar-footer{
+  padding:14px 20px;border-top:1px solid var(--border);
+  font-size:10.5px;color:var(--muted);letter-spacing:0.04em;
+}
+
+/* ===== SLIDE AREA ===== */
+.slide-area{
+  flex:1;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;background:var(--bg);
+}
+.slide-counter{
+  position:absolute;top:22px;right:28px;
+  font-size:12px;color:var(--muted);font-weight:600;
+  letter-spacing:0.1em;z-index:5;font-variant-numeric:tabular-nums;
+}
+.progress-bar{
+  position:absolute;bottom:0;left:0;height:2px;
+  background:var(--red);transition:width 0.4s ease;z-index:5;
+}
+.nav-hint{
+  position:absolute;bottom:18px;right:28px;
+  font-size:10.5px;color:var(--muted);z-index:5;letter-spacing:0.05em;
+}
+.nav-hint kbd{
+  background:rgba(255,255,255,0.05);border:1px solid var(--border);
+  border-radius:3px;padding:2px 7px;font-family:inherit;font-size:10.5px;
+}
+
+/* ===== SLIDES ===== */
+.slide{
+  position:absolute;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  padding:52px 72px;
+  opacity:0;transition:opacity 0.35s ease,transform 0.35s ease;
+  transform:translateX(36px);pointer-events:none;
+}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:auto;}
+.slide.exit-left{opacity:0;transform:translateX(-36px);}
+.slide-inner{
+  width:100%;max-width:1080px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.label{
+  font-size:11px;font-weight:700;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--red);margin-bottom:18px;
+}
+h1.title{
+  font-size:clamp(34px,4.2vw,60px);font-weight:700;
+  line-height:1.15;letter-spacing:-0.02em;color:var(--text);
+}
+h2.subtitle{
+  font-size:clamp(17px,1.9vw,24px);font-weight:400;
+  color:var(--sub);margin-top:18px;line-height:1.5;
+}
+.hero-num{
+  font-size:clamp(68px,9.5vw,130px);font-weight:800;
+  color:var(--red);line-height:1;letter-spacing:-0.03em;
+}
+.hero-lbl{
+  font-size:clamp(15px,1.7vw,20px);color:var(--sub);
+  margin-top:14px;font-weight:500;letter-spacing:0.02em;
+}
+.statement{
+  font-size:clamp(26px,3.2vw,44px);font-weight:600;
+  line-height:1.35;color:var(--text);max-width:820px;
+}
+.statement em{color:var(--red);font-style:normal;}
+
+/* ===== DIVIDER ===== */
+.divider-slide .slide-inner{position:relative;}
+.div-num{
+  font-size:clamp(110px,16vw,220px);font-weight:900;
+  color:rgba(209,32,32,0.05);position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-55%);
+  line-height:1;pointer-events:none;
+}
+.div-title{
+  font-size:clamp(30px,3.8vw,52px);font-weight:700;
+  color:var(--text);position:relative;z-index:1;
+}
+.div-sub{
+  font-size:clamp(14px,1.4vw,17px);color:var(--sub);
+  margin-top:12px;position:relative;z-index:1;
+}
+
+/* ===== STAT ROW ===== */
+.stat-row{
+  display:flex;gap:24px;justify-content:center;
+  flex-wrap:wrap;width:100%;max-width:980px;
+}
+.stat-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:14px;padding:28px 24px;text-align:center;
+  flex:1;min-width:160px;
+}
+.stat-card .sn{
+  font-size:clamp(28px,3.5vw,44px);font-weight:800;
+  color:var(--red);line-height:1;
+}
+.stat-card .sl{
+  font-size:12.5px;color:var(--sub);margin-top:9px;line-height:1.4;
+}
+
+/* ===== SIDE BY SIDE ===== */
+.sbs{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:32px;width:100%;max-width:960px;text-align:left;
+}
+.sc{
+  background:var(--bg-card);border-radius:14px;
+  padding:32px;border:1px solid var(--border);
+}
+.sc h3{font-size:19px;font-weight:700;margin-bottom:14px;color:var(--text);}
+.sc.red-col{border-color:var(--red);}
+.sc.red-col h3{color:var(--red);}
+.sc p,.sc li{font-size:14px;color:var(--sub);line-height:1.65;}
+.sc ul{list-style:none;padding:0;}
+.sc li{padding:5px 0;}
+.sc li::before{content:'→';color:var(--red);margin-right:8px;font-weight:700;}
+
+/* ===== FLOW ROW ===== */
+.flow-row{
+  display:flex;align-items:center;gap:0;
+  width:100%;max-width:980px;justify-content:center;flex-wrap:wrap;
+}
+.fb{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:12px;padding:20px 22px;text-align:center;
+  min-width:140px;flex:0 1 auto;
+}
+.fb h4{font-size:13.5px;font-weight:700;color:var(--red);margin-bottom:5px;}
+.fb p{font-size:12px;color:var(--sub);line-height:1.4;}
+.fa{font-size:20px;color:var(--muted);padding:0 8px;flex-shrink:0;}
+
+/* ===== TABLE ===== */
+.stbl{width:100%;max-width:920px;border-collapse:collapse;text-align:left;}
+.stbl th{
+  font-size:10.5px;font-weight:700;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--muted);
+  padding:11px 14px;border-bottom:2px solid var(--red);
+}
+.stbl td{
+  font-size:14px;color:var(--sub);
+  padding:13px 14px;border-bottom:1px solid var(--border);
+}
+.stbl tr:last-child td{border-bottom:none;}
+.stbl td:first-child{color:var(--text);font-weight:600;}
+.hl{color:var(--red);font-weight:700;}
+
+/* ===== 3-CARD GRID ===== */
+.c3{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:22px;width:100%;max-width:920px;
+}
+.cc{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:12px;padding:26px 22px;text-align:left;
+}
+.cc h4{font-size:15px;font-weight:700;color:var(--text);margin-bottom:5px;}
+.cc .cp{font-size:26px;font-weight:800;color:var(--red);margin-bottom:9px;}
+.cc p{font-size:12.5px;color:var(--sub);line-height:1.5;}
+
+/* ===== MINIMAL LIST ===== */
+.mlist{list-style:none;padding:0;text-align:left;max-width:720px;width:100%;}
+.mlist li{
+  font-size:clamp(15px,1.6vw,19px);color:var(--sub);
+  padding:13px 0;border-bottom:1px solid var(--border);
+  display:flex;align-items:baseline;gap:14px;line-height:1.5;
+}
+.mlist li:last-child{border-bottom:none;}
+.mlist .ln{color:var(--red);font-weight:800;font-size:13px;min-width:22px;}
+
+/* ===== BAR CHART ===== */
+.bar-chart{
+  display:flex;align-items:flex-end;gap:18px;
+  height:260px;width:100%;max-width:660px;
+  justify-content:center;padding-bottom:36px;position:relative;
+}
+.bar-chart::after{
+  content:'';position:absolute;bottom:36px;left:0;right:0;
+  height:1px;background:var(--border);
+}
+.bar-col{
+  display:flex;flex-direction:column;align-items:center;
+  flex:1;position:relative;z-index:1;
+}
+.bar-fill{
+  width:52px;border-radius:7px 7px 0 0;
+  background:linear-gradient(180deg,var(--red),rgba(209,32,32,0.35));
+  transition:height 0.6s ease;
+}
+.bar-val{font-size:15px;font-weight:700;color:var(--red);margin-bottom:7px;}
+.bar-lbl{
+  font-size:12px;color:var(--sub);margin-top:10px;
+  position:absolute;bottom:-28px;
+}
+
+/* ===== TIER CARD ===== */
+.tier-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:20px;width:100%;max-width:960px;
+}
+.tc{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:12px;padding:24px 20px;text-align:left;
+}
+.tc.t1{border-color:var(--red);}
+.tc .tn{
+  font-size:10px;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:6px;
+}
+.tc h4{font-size:16px;font-weight:700;color:var(--text);margin-bottom:10px;}
+.tc .ti{font-size:13px;color:var(--red);font-weight:600;margin-bottom:8px;}
+.tc p{font-size:12.5px;color:var(--sub);line-height:1.5;}
+
+/* ===== BADGE ===== */
+.badge{
+  display:inline-block;padding:3px 12px;border-radius:100px;
+  font-size:10.5px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+}
+.badge-red{background:var(--red-dim);color:var(--red);}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <img src="data:image/webp;base64,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" alt="Expedient" />
+  </div>
+  <nav class="sidebar-nav" id="sidebarNav"></nav>
+  <div class="sidebar-footer">CONFIDENTIAL · INTERVIEW USE ONLY · APRIL 2026</div>
+</aside>
+
+<!-- ===== SLIDE AREA ===== -->
+<main class="slide-area">
+  <div class="slide-counter" id="slideCounter"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- ========= CH 0: TITLE ========= -->
+
+  <!-- S0: Title -->
+  <div class="slide" data-chapter="0">
+    <div class="slide-inner">
+      <div class="label">12-Month Revenue Growth Plan</div>
+      <h1 class="title">Dallas Territory<br>Revenue Plan</h1>
+      <h2 class="subtitle">Net-New Logo Motion · Greenfield · DFW Metroplex</h2>
+      <div style="margin-top:36px;padding-top:28px;border-top:1px solid var(--border);width:320px;">
+        <div style="font-size:17px;font-weight:600;color:var(--text);letter-spacing:0.06em;margin-bottom:8px;">Chris Debayle</div>
+        <div style="font-size:13px;color:var(--sub);letter-spacing:0.03em;">+1 281.989.0590 &nbsp;|&nbsp; me@chrisdebayle.com</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S1: Hero ARR -->
+  <div class="slide" data-chapter="0">
+    <div class="slide-inner">
+      <div class="hero-num">$920K+</div>
+      <div class="hero-lbl">Year 1 ARR Target · $0 Installed Base</div>
+    </div>
+  </div>
+
+  <!-- ========= CH 1: EXEC SUMMARY ========= -->
+
+  <!-- S2: Divider -->
+  <div class="slide divider-slide" data-chapter="1">
+    <div class="slide-inner">
+      <div class="div-num">01</div>
+      <div class="div-title">Executive Summary</div>
+      <div class="div-sub">Revenue Thesis · Deal Economics · Counter-Narrative</div>
+    </div>
+  </div>
+
+  <!-- S3: Thesis statement -->
+  <div class="slide" data-chapter="1">
+    <div class="slide-inner">
+      <p class="statement">DFW's mid-market is saturated with <em>VMware pain, DR mandates, and AI ambitions blocked by data sovereignty.</em></p>
+    </div>
+  </div>
+
+  <!-- S4: Stats -->
+  <div class="slide" data-chapter="1">
+    <div class="slide-inner">
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="sn">20–30</div>
+          <div class="sl">Target Accounts<br>Year 1</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">$500K+</div>
+          <div class="sl">Max ACV<br>Range</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">99%</div>
+          <div class="sl">Client<br>Retention</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">#3</div>
+          <div class="sl">Global MSP 501<br>Rank</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5: Land/Expand/Platform flow -->
+  <div class="slide" data-chapter="1">
+    <div class="slide-inner">
+      <div class="label">Revenue Model</div>
+      <div style="display:flex;align-items:stretch;gap:0;width:100%;max-width:900px;">
+
+        <!-- Land -->
+        <div style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-top:3px solid var(--red);border-radius:12px;padding:28px 24px;text-align:left;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:10px;">01 — Land</div>
+          <div style="font-size:20px;font-weight:700;color:#ffffff;margin-bottom:10px;">DR / VMware Migration</div>
+          <div style="font-size:13.5px;color:#c8c8c8;line-height:1.6;">Lowest risk entry point. Fastest evaluation cycle. DRaaS or VMware path — customer's choice.</div>
+        </div>
+
+        <!-- Connector -->
+        <div style="display:flex;align-items:center;padding:0 16px;flex-shrink:0;">
+          <div style="width:36px;height:2px;background:var(--red);position:relative;">
+            <div style="position:absolute;right:-6px;top:-5px;color:var(--red);font-size:16px;font-weight:700;">▶</div>
+          </div>
+        </div>
+
+        <!-- Expand -->
+        <div style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-top:3px solid rgba(209,32,32,0.55);border-radius:12px;padding:28px 24px;text-align:left;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(209,32,32,0.75);margin-bottom:10px;">02 — Expand</div>
+          <div style="font-size:20px;font-weight:700;color:#ffffff;margin-bottom:10px;">Full Private Cloud + Managed Services</div>
+          <div style="font-size:13.5px;color:#c8c8c8;line-height:1.6;">Trust established. Scope expands to full managed infra as workloads grow. Months 3–12.</div>
+        </div>
+
+        <!-- Connector -->
+        <div style="display:flex;align-items:center;padding:0 16px;flex-shrink:0;">
+          <div style="width:36px;height:2px;background:rgba(209,32,32,0.45);position:relative;">
+            <div style="position:absolute;right:-6px;top:-5px;color:rgba(209,32,32,0.55);font-size:16px;font-weight:700;">▶</div>
+          </div>
+        </div>
+
+        <!-- Platform -->
+        <div style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-top:3px solid rgba(209,32,32,0.25);border-radius:12px;padding:28px 24px;text-align:left;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(209,32,32,0.5);margin-bottom:10px;">03 — Platform</div>
+          <div style="font-size:20px;font-weight:700;color:#ffffff;margin-bottom:10px;">AI CTRL + Compliance</div>
+          <div style="font-size:13.5px;color:#c8c8c8;line-height:1.6;">Compliance-sensitive buyers add private governed AI. Multi-year MRR. CIO/CISO sponsor locked.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- S6: No-DC counter narrative -->
+  <div class="slide" data-chapter="1">
+    <div class="slide-inner">
+      <p class="statement"><em>No local data center.</em><br>99% client retention is the proof.<br>Practitioner delivery outperforms local alternatives.</p>
+    </div>
+  </div>
+
+  <!-- ========= CH 2: ICP SEGMENTATION ========= -->
+
+  <!-- S7: Divider -->
+  <div class="slide divider-slide" data-chapter="2">
+    <div class="slide-inner">
+      <div class="div-num">02</div>
+      <div class="div-title">ICP Segmentation</div>
+      <div class="div-sub">Account Prioritization · Three Tiers</div>
+    </div>
+  </div>
+
+  <!-- S8: Tier cards -->
+  <div class="slide" data-chapter="2">
+    <div class="slide-inner">
+      <div class="label">Account Tiers</div>
+      <div class="tier-grid">
+        <div class="tc t1">
+          <div class="tn">Tier 1 — Primary Outbound</div>
+          <h4>Tech · Finance · Software</h4>
+          <div class="ti">$25M–$5B+ Revenue · 200–5,000+ Employees</div>
+          <p>VMware displacement or DR compliance gap or AI CTRL. Largest ACV + expansion potential.</p>
+        </div>
+        <div class="tc">
+          <div class="tn">Tier 2 — Partner-Assisted</div>
+          <h4>Healthcare · Manufacturing</h4>
+          <div class="ti">$25M–$500M Revenue · 100–2,500 Employees</div>
+          <p>Pain-driven DR and compliance mandate. Good upsell path to AI CTRL + hybrid cloud.</p>
+        </div>
+        <div class="tc">
+          <div class="tn">Tier 3 — Opportunistic Only</div>
+          <h4>Retail · Hospitality · Local Services</h4>
+          <div class="ti">$5M–$100M Revenue · 25–500 Employees</div>
+          <p>Partner/inbound only. Never primary outbound. Lower ACV, more transactional.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S9: Scoring workflow — pyramid layout -->
+  <div class="slide" data-chapter="2">
+    <div class="slide-inner">
+      <div class="label">Account Scoring — Days 1–20</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:860px;">
+
+        <!-- Row 1: Build List — narrowest (top of pyramid) -->
+        <div style="width:44%;background:var(--bg-card);border:1px solid var(--red);border-radius:12px;padding:18px 28px;text-align:center;">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:5px;">Build List</div>
+          <div style="font-size:12.5px;color:#c8c8c8;line-height:1.5;">150–200 accounts via LinkedIn + ZoomInfo</div>
+        </div>
+
+        <!-- Connector -->
+        <div style="display:flex;flex-direction:column;align-items:center;padding:6px 0;">
+          <div style="width:2px;height:20px;background:var(--red);opacity:0.5;"></div>
+          <div style="color:var(--red);font-size:13px;opacity:0.7;">▼</div>
+        </div>
+
+        <!-- Row 2: Score — slightly wider -->
+        <div style="width:62%;background:var(--bg-card);border:1px solid rgba(209,32,32,0.55);border-radius:12px;padding:18px 28px;text-align:center;">
+          <div style="font-size:14px;font-weight:700;color:rgba(209,32,32,0.85);margin-bottom:5px;">Score Each Account (0–8)</div>
+          <div style="font-size:12.5px;color:#c8c8c8;line-height:1.5;">VMware pain · Compliance severity · DR gap · IT headcount</div>
+        </div>
+
+        <!-- Connector -->
+        <div style="display:flex;flex-direction:column;align-items:center;padding:6px 0;">
+          <div style="width:2px;height:20px;background:rgba(209,32,32,0.5);opacity:0.5;"></div>
+          <div style="color:rgba(209,32,32,0.6);font-size:13px;opacity:0.7;">▼</div>
+        </div>
+
+        <!-- Row 3: Three tiers — full width (base of pyramid) -->
+        <div style="width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+          <div style="background:var(--bg-card);border:1px solid rgba(209,32,32,0.35);border-radius:12px;padding:16px 18px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:rgba(209,32,32,0.7);margin-bottom:4px;">Tier 1 — Score 6–8</div>
+            <div style="font-size:12px;color:#c8c8c8;line-height:1.5;">Direct outbound<br>Priority sequence</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid rgba(209,32,32,0.2);border-radius:12px;padding:16px 18px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:rgba(209,32,32,0.5);margin-bottom:4px;">Tier 2 — Score 3–5</div>
+            <div style="font-size:12px;color:#c8c8c8;line-height:1.5;">Partner-assisted<br>Co-sell motion</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:var(--sub);margin-bottom:4px;">Tier 3 — Score &lt;3</div>
+            <div style="font-size:12px;color:#c8c8c8;line-height:1.5;">Nurture / inbound<br>No outbound spend</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= CH 3: PHASE 1 ========= -->
+
+  <!-- S10: Divider -->
+  <div class="slide divider-slide" data-chapter="3">
+    <div class="slide-inner">
+      <div class="div-num">03</div>
+      <div class="div-title">Phase 1: First 90 Days</div>
+      <div class="div-sub">Foundation · Partner Activation · First Pipeline</div>
+    </div>
+  </div>
+
+  <!-- S11: Phase 1 targets -->
+  <div class="slide" data-chapter="3">
+    <div class="slide-inner">
+      <div class="label">Phase 1 Targets</div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="sn">$150K</div>
+          <div class="sl">Revenue Closed<br>Q1</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">$600K</div>
+          <div class="sl">Qualified<br>Pipeline Built</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">1–2</div>
+          <div class="sl">Logos<br>Closed</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">3–5</div>
+          <div class="sl">Active<br>POCs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S12: Three wedge plays -->
+  <div class="slide" data-chapter="3">
+    <div class="slide-inner">
+      <div class="label">Three Time-Sensitive Wedge Plays</div>
+      <div class="sbs" style="grid-template-columns:1fr 1fr 1fr;gap:20px;">
+        <div class="sc red-col">
+          <h3>VMware Pain</h3>
+          <p>Broadcom 3–5× price increase. VCFaaS or Nutanix path — you choose. No rip-and-replace.</p>
+        </div>
+        <div class="sc">
+          <h3>DR / Compliance</h3>
+          <p>HIPAA + PCI DR mandates. Zerto Growth Partner 2025. 40–60% lower TCO, 70% lower recovery cost.</p>
+        </div>
+        <div class="sc">
+          <h3>AI CTRL Platform</h3>
+          <p>ChatGPT off-limits for PHI/PCI data. Private governed AI on your own infrastructure.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S13: 90-day numeric targets -->
+  <div class="slide" data-chapter="3">
+    <div class="slide-inner">
+      <div class="label">90-Day Numeric Targets</div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="sn">20–25</div>
+          <div class="sl">First Meetings<br>Booked</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">10–14</div>
+          <div class="sl">Qualified<br>Opportunities</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">3–5</div>
+          <div class="sl">Partner Co-Sell<br>Registrations</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S14: Partner activation -->
+  <div class="slide" data-chapter="3">
+    <div class="slide-inner">
+      <div class="label">Partner Activation — Day 1</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:560px;">
+
+        <div class="fb" style="width:100%;text-align:center;">
+          <h4>Pure Storage</h4>
+          <p>Elite MSP Partner. DFW co-sell for high-performance workloads. Activate Week 1.</p>
+        </div>
+
+        <div style="font-size:28px;font-weight:700;color:var(--red);line-height:1;padding:10px 0;">+</div>
+
+        <div class="fb" style="width:100%;text-align:center;">
+          <h4>Nutanix + VMware</h4>
+          <p>Dual SPOTY 2025. Credibility in every Broadcom displacement. 2–3 opps by Day 60.</p>
+        </div>
+
+        <div style="font-size:28px;font-weight:700;color:var(--red);line-height:1;padding:10px 0;">+</div>
+
+        <div class="fb" style="width:100%;text-align:center;">
+          <h4>Zerto</h4>
+          <p>Fastest path to DR pipeline. Healthcare + FinServ priority. 3–5 opps by Day 60.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= CH 4: PHASE 2 ========= -->
+
+  <!-- S15: Divider -->
+  <div class="slide divider-slide" data-chapter="4">
+    <div class="slide-inner">
+      <div class="div-num">04</div>
+      <div class="div-title">Phase 2: Months 4–6</div>
+      <div class="div-sub">Conversion · Win-Rate Discipline · Expansion Seeds</div>
+    </div>
+  </div>
+
+  <!-- S16: Phase 2 targets -->
+  <div class="slide" data-chapter="4">
+    <div class="slide-inner">
+      <div class="label">Phase 2 Targets</div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="sn">$300K</div>
+          <div class="sl">Revenue<br>Closed Q2</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">3–4</div>
+          <div class="sl">New<br>Logos</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">28–35%</div>
+          <div class="sl">Blended<br>Win Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">$800K+</div>
+          <div class="sl">Cumulative<br>Pipeline</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S17: MAP timeline -->
+  <div class="slide" data-chapter="4">
+    <div class="slide-inner">
+      <div class="label">Mutual Action Plan — Every Deal &gt;$50K ACV</div>
+      <div class="flow-row">
+        <div class="fb">
+          <h4>Wk 1</h4>
+          <p>Discovery + SOC 2 Type II submitted</p>
+        </div>
+        <div class="fa">→</div>
+        <div class="fb">
+          <h4>Wk 2</h4>
+          <p>Technical scope + hypervisor path locked</p>
+        </div>
+        <div class="fa">→</div>
+        <div class="fb">
+          <h4>Wk 3–5</h4>
+          <p>POC: DR failover or VMware assessment</p>
+        </div>
+        <div class="fa">→</div>
+        <div class="fb">
+          <h4>Wk 6–8</h4>
+          <p>TCO model + expansion preview</p>
+        </div>
+        <div class="fa">→</div>
+        <div class="fb">
+          <h4>Wk 9–10</h4>
+          <p>Multi-year MRR proposal + legal</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S18: ROI Framework -->
+  <div class="slide" data-chapter="4">
+    <div class="slide-inner">
+      <div class="label">ROI / Value Engineering</div>
+      <div class="c3">
+        <div class="cc">
+          <div class="cp">40–60%</div>
+          <h4>TCO Reduction</h4>
+          <p>vs. sustained hyperscale workloads — 100% cost predictability, no egress surprises</p>
+        </div>
+        <div class="cc">
+          <div class="cp">70%</div>
+          <h4>Lower Recovery Cost</h4>
+          <p>vs. aging DR solutions — $5,600/min outage cost quantified for every deal</p>
+        </div>
+        <div class="cc">
+          <div class="cp">$300K/yr</div>
+          <h4>FTE Recaptured</h4>
+          <p>0.5–2 FTE equivalent ($75K–$300K/yr) redirected to strategic work</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S19: Expansion triggers -->
+  <div class="slide" data-chapter="4">
+    <div class="slide-inner">
+      <div class="label">Expansion Trigger Map</div>
+      <table class="stbl">
+        <tr><th>Signal</th><th>Expansion Product</th><th>ACV Uplift</th><th>Timing</th></tr>
+        <tr><td>DR POC complete</td><td>Managed Private Cloud Migration</td><td class="hl">+$50–200K</td><td>Mo 3–6</td></tr>
+        <tr><td>VMware migrated, stable</td><td>AI CTRL Platform Pilot</td><td class="hl">+$30–100K</td><td>Mo 4–8</td></tr>
+        <tr><td>Compliance audit / near miss</td><td>Managed Compliance (HIPAA/PCI)</td><td class="hl">+$25–75K</td><td>Event</td></tr>
+        <tr><td>80%+ storage utilization</td><td>Pure Storage Tier Upgrade</td><td class="hl">+$20–60K</td><td>Usage</td></tr>
+        <tr><td>M&amp;A or new business unit</td><td>Additional Managed Environment</td><td class="hl">+$40–150K+</td><td>Event</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========= CH 5: PHASE 3 ========= -->
+
+  <!-- S20: Divider -->
+  <div class="slide divider-slide" data-chapter="5">
+    <div class="slide-inner">
+      <div class="div-num">05</div>
+      <div class="div-title">Phase 3: Months 7–12</div>
+      <div class="div-sub">Systemized Growth Engine · Scale All Three Motions</div>
+    </div>
+  </div>
+
+  <!-- S21: Phase 3 hero -->
+  <div class="slide" data-chapter="5">
+    <div class="slide-inner">
+      <div class="hero-num">$550K</div>
+      <div class="hero-lbl">H2 Revenue · 5–7 New Logos · 4–6 Expansion Motions</div>
+    </div>
+  </div>
+
+  <!-- S22: Expansion tiers -->
+  <div class="slide" data-chapter="5">
+    <div class="slide-inner">
+      <div class="label">Account Expansion System</div>
+      <div class="c3">
+        <div class="cc">
+          <div class="cp">+$30–80K</div>
+          <h4>Deepen</h4>
+          <p>Landed on DR or VMware 3+ months live — add managed private cloud or AI CTRL pilot</p>
+        </div>
+        <div class="cc">
+          <div class="cp">+$50–150K</div>
+          <h4>Expand</h4>
+          <p>2 services live, growing usage — full managed infra + managed compliance layer</p>
+        </div>
+        <div class="cc">
+          <div class="cp">+$300K+</div>
+          <h4>Platform</h4>
+          <p>3+ services, CIO/CISO sponsor — multi-year EA, AI CTRL full deploy, Pure Storage upgrade</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S23: CBR structure -->
+  <div class="slide" data-chapter="5">
+    <div class="slide-inner">
+      <div class="label">Customer Business Review Cadence</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:780px;">
+
+        <!-- Row 1: Day 60 — widest (top of pyramid) -->
+        <div style="width:100%;background:var(--bg-card);border:1px solid var(--red);border-radius:12px;padding:18px 28px;text-align:center;">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:5px;">Day 60</div>
+          <div style="font-size:12.5px;color:#c8c8c8;line-height:1.5;">Adoption health: uptime, SLA, support tickets — identify first expansion signal</div>
+        </div>
+
+        <!-- Connector -->
+        <div style="display:flex;flex-direction:column;align-items:center;padding:6px 0;">
+          <div style="width:2px;height:20px;background:var(--red);opacity:0.5;"></div>
+          <div style="color:var(--red);font-size:13px;opacity:0.7;">▼</div>
+        </div>
+
+        <!-- Row 2: Quarterly EBR — medium -->
+        <div style="width:78%;background:var(--bg-card);border:1px solid rgba(209,32,32,0.55);border-radius:12px;padding:18px 28px;text-align:center;">
+          <div style="font-size:14px;font-weight:700;color:rgba(209,32,32,0.85);margin-bottom:5px;">Quarterly EBR</div>
+          <div style="font-size:12.5px;color:#c8c8c8;line-height:1.5;">Outcomes delivered, TCO review, maturity roadmap: DR → Cloud → AI CTRL → Compliance</div>
+        </div>
+
+        <!-- Connector -->
+        <div style="display:flex;flex-direction:column;align-items:center;padding:6px 0;">
+          <div style="width:2px;height:20px;background:rgba(209,32,32,0.45);opacity:0.5;"></div>
+          <div style="color:rgba(209,32,32,0.6);font-size:13px;opacity:0.7;">▼</div>
+        </div>
+
+        <!-- Row 3: Annual Review — narrowest (base) -->
+        <div style="width:56%;background:var(--bg-card);border:1px solid rgba(209,32,32,0.25);border-radius:12px;padding:18px 28px;text-align:center;">
+          <div style="font-size:14px;font-weight:700;color:rgba(209,32,32,0.55);margin-bottom:5px;">Annual Review</div>
+          <div style="font-size:12.5px;color:#c8c8c8;line-height:1.5;">Multi-year renewal + reference customer + co-marketing opportunity</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= CH 6: WATERFALL ========= -->
+
+  <!-- S24: Divider -->
+  <div class="slide divider-slide" data-chapter="6">
+    <div class="slide-inner">
+      <div class="div-num">06</div>
+      <div class="div-title">Revenue Waterfall</div>
+      <div class="div-sub">Quarterly Pacing to $920K+</div>
+    </div>
+  </div>
+
+  <!-- S25: Bar chart -->
+  <div class="slide" data-chapter="6">
+    <div class="slide-inner">
+      <div class="label">Quarterly Revenue Build</div>
+      <div class="bar-chart">
+        <div class="bar-col">
+          <div class="bar-val">$75K</div>
+          <div class="bar-fill" style="height:54px"></div>
+          <div class="bar-lbl">Q1</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-val">$250K</div>
+          <div class="bar-fill" style="height:180px"></div>
+          <div class="bar-lbl">Q2</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-val">$250K</div>
+          <div class="bar-fill" style="height:180px"></div>
+          <div class="bar-lbl">Q3</div>
+        </div>
+        <div class="bar-col">
+          <div class="bar-val">$175K</div>
+          <div class="bar-fill" style="height:126px"></div>
+          <div class="bar-lbl">Q4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S26: Waterfall table -->
+  <div class="slide" data-chapter="6">
+    <div class="slide-inner">
+      <div class="label">Revenue Waterfall Detail</div>
+      <table class="stbl">
+        <tr><th>Quarter</th><th>New Logos</th><th>New Logo $</th><th>Expansion $</th><th>Total</th><th>Cumulative</th></tr>
+        <tr><td>Q1</td><td>1–2</td><td>$75–150K</td><td>—</td><td>$75–150K</td><td class="hl">$75–150K</td></tr>
+        <tr><td>Q2</td><td>3–4</td><td>$200–250K</td><td>$30–50K</td><td>$250–300K</td><td class="hl">$325–450K</td></tr>
+        <tr><td>Q3</td><td>3–4</td><td>$200–250K</td><td>$50–75K</td><td>$250–325K</td><td class="hl">$575–775K</td></tr>
+        <tr><td>Q4</td><td>2–3</td><td>$100–175K</td><td>$75–100K</td><td>$175–275K</td><td class="hl">$750K–1.05M</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- S27: Pacing rationale -->
+  <div class="slide" data-chapter="6">
+    <div class="slide-inner">
+      <p class="statement">Q1 is deliberately light.<br><em>3–9 month cycles mean Q1 pipeline closes in Q2.</em><br>Expansion accelerates the back half.</p>
+    </div>
+  </div>
+
+  <!-- ========= CH 7: KPIS ========= -->
+
+  <!-- S28: Divider -->
+  <div class="slide divider-slide" data-chapter="7">
+    <div class="slide-inner">
+      <div class="div-num">07</div>
+      <div class="div-title">KPIs &amp; Risk</div>
+      <div class="div-sub">Early Warning Signals · Mitigation Playbook</div>
+    </div>
+  </div>
+
+  <!-- S29: KPI table -->
+  <div class="slide" data-chapter="7">
+    <div class="slide-inner">
+      <div class="label">Critical KPIs</div>
+      <table class="stbl">
+        <tr><th>Metric</th><th>Target</th><th>Risk Signal</th><th>Mitigation</th></tr>
+        <tr><td>Pipeline Coverage</td><td class="hl">4.0–4.5×</td><td>&lt;3.0× by end Q1</td><td>Accelerate partner co-sell</td></tr>
+        <tr><td>Win Rate (blended)</td><td class="hl">25–35%</td><td>&lt;18% through Q2</td><td>Tighten POC pre-qual</td></tr>
+        <tr><td>Sales Cycle (wedge)</td><td class="hl">60–90 days</td><td>&gt;120 days avg</td><td>Enforce MAP, front-load GRC</td></tr>
+        <tr><td>New Logo ACV</td><td class="hl">$50–150K</td><td>&lt;$35K avg</td><td>Price multi-year from Day 1</td></tr>
+        <tr><td>AI CTRL Attach Rate</td><td class="hl">30–40%</td><td>&lt;15% by Mo 9</td><td>Demo in every Tier 1 discovery</td></tr>
+        <tr><td>Expansion NDR</td><td class="hl">120%+</td><td>&lt;105% at Mo 9</td><td>Accelerate CBRs</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- S30: Mitigation -->
+  <div class="slide" data-chapter="7">
+    <div class="slide-inner">
+      <div class="label">Mitigation Playbook</div>
+      <ul class="mlist">
+        <li><span class="ln">01</span>Pipeline low → Accelerate Pure Storage + Nutanix + Zerto co-sell sprint</li>
+        <li><span class="ln">02</span>Win rate low → Add InfoSec to MAP Week 1; sharpen TCO model</li>
+        <li><span class="ln">03</span>Cycle &gt;120d → Enforce MAP; escalate to exec sponsor immediately</li>
+        <li><span class="ln">04</span>ACV too low → Qualify for private cloud expansion at close</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========= CH 8: COMPETITIVE ========= -->
+
+  <!-- S31: Divider -->
+  <div class="slide divider-slide" data-chapter="8">
+    <div class="slide-inner">
+      <div class="div-num">08</div>
+      <div class="div-title">Competitive Positioning</div>
+      <div class="div-sub">Win Strategy · Battlecard · Broadcom Sequence</div>
+    </div>
+  </div>
+
+  <!-- S32: Competitor cards -->
+  <div class="slide" data-chapter="8">
+    <div class="slide-inner">
+      <div class="label">Win Strategy by Competitor</div>
+      <div class="c3">
+        <div class="cc">
+          <h4>DIY / On-Prem</h4>
+          <p style="margin-bottom:10px;"><span style="color:var(--red);font-weight:700;">Wedge:</span> CapEx recycles into recurring refresh. Quantify hidden headcount cost.</p>
+          <p>"Your team is managing infrastructure instead of driving your business."</p>
+        </div>
+        <div class="cc">
+          <h4>Flexential / CyrusOne</h4>
+          <p style="margin-bottom:10px;"><span style="color:var(--red);font-weight:700;">Wedge:</span> Colo is space and power. True management costs extra.</p>
+          <p>"Colo gives you a rack. Expedient gives you a managed environment."</p>
+        </div>
+        <div class="cc">
+          <h4>AWS / Azure / GCP</h4>
+          <p style="margin-bottom:10px;"><span style="color:var(--red);font-weight:700;">Wedge:</span> 30–70% billing spikes. Egress fees. HIPAA audit is your problem.</p>
+          <p>"Sustained workloads in hyperscale cost 40–60% more. And we answer for your compliance."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S33: Broadcom sequence -->
+  <div class="slide" data-chapter="8">
+    <div class="slide-inner">
+      <div class="label">Broadcom / VMware Discovery Sequence</div>
+      <table class="stbl">
+        <tr><th>Discovery Question</th><th>What You're Diagnosing</th><th>Expedient Position</th></tr>
+        <tr><td>VMware renewal quote vs. prior year?</td><td>Licensing shock (3–5×)</td><td class="hl">VCFaaS or Nutanix — you choose the path</td></tr>
+        <tr><td>% of budget going to unplanned overages?</td><td>Budget instability</td><td class="hl">100% cost predictability, no surprise licensing</td></tr>
+        <tr><td>Confidence in 3-year infra cost forecast?</td><td>Strategic planning risk</td><td class="hl">30-day parallel TCO — no commitment</td></tr>
+        <tr><td>What happens at 30% month-over-month spike?</td><td>Cost volatility anxiety</td><td class="hl">Dedicated resources = guaranteed SLA, fixed bill</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========= CH 9: STRATEGIC LEVERAGE ========= -->
+
+  <!-- S34: Divider -->
+  <div class="slide divider-slide" data-chapter="9">
+    <div class="slide-inner">
+      <div class="div-num">09</div>
+      <div class="div-title">Strategic Leverage Plays</div>
+      <div class="div-sub">Four High-Impact Pipeline Accelerators</div>
+    </div>
+  </div>
+
+  <!-- S35: Plays overview -->
+  <div class="slide" data-chapter="9">
+    <div class="slide-inner">
+      <div class="sbs">
+        <div class="sc red-col">
+          <h3>AI CTRL Wedge</h3>
+          <p>4–6 pilots in H2. $150–300K ACV uplift. Target: Finance, Software, Healthcare. "You can't use ChatGPT with that data — AI CTRL can."</p>
+        </div>
+        <div class="sc">
+          <h3>Broadcom Sprint</h3>
+          <p>6–8 VMware displacement opps by Month 6. Map every Tier 1/2 for renewal timing. Dual SPOTY 2025 = most credible DFW offer.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S36: Plays 2 -->
+  <div class="slide" data-chapter="9">
+    <div class="slide-inner">
+      <div class="sbs">
+        <div class="sc red-col">
+          <h3>DR as First Foothold</h3>
+          <p>4–6 DR-first engagements Q1–Q2. 60–70% expand to managed cloud within 18 months. Lowest buyer risk, fastest evaluation cycle.</p>
+        </div>
+        <div class="sc">
+          <h3>Pure Storage Co-Sell</h3>
+          <p>3–5 co-sell opportunities by Month 6. $100–250K influenced pipeline. Activate DFW channel team Week 1.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========= CH 10: WHY THIS WINS ========= -->
+
+  <!-- S37: Divider -->
+  <div class="slide divider-slide" data-chapter="10">
+    <div class="slide-inner">
+      <div class="div-num">10</div>
+      <div class="div-title">Why This Plan Wins</div>
+    </div>
+  </div>
+
+  <!-- S38: 5 reasons -->
+  <div class="slide" data-chapter="10">
+    <div class="slide-inner">
+      <ul class="mlist">
+        <li><span class="ln">01</span><strong style="color:var(--text)">Unmatched credentials.</strong> #3 MSP globally · VMware VCFaaS POTY · Nutanix SPOTY · Zerto GPOTY · Pure Storage Elite</li>
+        <li><span class="ln">02</span><strong style="color:var(--text)">ICP discipline.</strong> Tier 1 = 60%+ of pipeline. No Tier 3 outbound — prevents dilution in a 3–9 month cycle territory.</li>
+        <li><span class="ln">03</span><strong style="color:var(--text)">Three wedges.</strong> Structural resilience — if one motion slows, the others keep pipeline moving.</li>
+        <li><span class="ln">04</span><strong style="color:var(--text)">Quantified ROI.</strong> 40–60% TCO savings · 70% lower recovery cost · 100% cost predictability. Not estimates — published proof.</li>
+        <li><span class="ln">05</span><strong style="color:var(--text)">Expansion is built in.</strong> Every land creates a natural path. DR → Cloud → AI CTRL → Compliance. 120%+ NDR is conservative.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- S39: Closing hero -->
+  <div class="slide" data-chapter="10">
+    <div class="slide-inner">
+      <div style="font-size:clamp(18px,2.2vw,28px);font-weight:700;color:#ffffff;letter-spacing:0.01em;margin-bottom:28px;">Let's Build Something in Texas</div>
+      <div class="hero-num">$920K+</div>
+      <div class="hero-lbl" style="max-width:560px;">9–13 logos · 120%+ NDR · Year 2 foundation at $1.1M+<br>Greenfield → DFW's highest-growth regional footprint</div>
+    </div>
+  </div>
+
+  <!-- Nav hint -->
+  <div class="nav-hint"><kbd>←</kbd> <kbd>→</kbd> to navigate</div>
+</main>
+</div>
+
+<script>
+/* ===== CHAPTER DEFINITIONS ===== */
+const chapters = [
+  { short: "Title" },
+  { short: "Executive Summary" },
+  { short: "ICP Segmentation" },
+  { short: "Phase 1: 90 Days" },
+  { short: "Phase 2: Months 4–6" },
+  { short: "Phase 3: Months 7–12" },
+  { short: "Revenue Waterfall" },
+  { short: "KPIs & Risk" },
+  { short: "Competitive Positioning" },
+  { short: "Strategic Leverage" },
+  { short: "Why This Wins" }
+];
+
+/* ===== STATE ===== */
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+let animating = false;
+
+/* ===== SIDEBAR ===== */
+const nav = document.getElementById('sidebarNav');
+chapters.forEach((ch, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'chapter-btn';
+  btn.textContent = ch.short;
+  btn.dataset.chapter = i;
+  btn.addEventListener('click', () => {
+    const first = [...slides].findIndex(s => parseInt(s.dataset.chapter) === i);
+    if (first >= 0) goTo(first);
+  });
+  nav.appendChild(btn);
+});
+
+/* ===== NAV ===== */
+function goTo(idx) {
+  if (animating || idx === current || idx < 0 || idx >= total) return;
+  animating = true;
+  const dir = idx > current ? 1 : -1;
+  slides[current].classList.remove('active');
+  if (dir > 0) slides[current].classList.add('exit-left');
+  setTimeout(() => {
+    slides[current].classList.remove('exit-left');
+    current = idx;
+    slides[current].classList.add('active');
+    updateUI();
+    animating = false;
+  }, 80);
+}
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+
+function updateUI() {
+  document.getElementById('slideCounter').textContent = (current + 1) + ' / ' + total;
+  document.getElementById('progressBar').style.width = ((current + 1) / total * 100) + '%';
+  const ch = parseInt(slides[current].dataset.chapter);
+  document.querySelectorAll('.chapter-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.chapter) === ch);
+  });
+}
+
+/* ===== KEYBOARD ===== */
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+
+/* ===== TOUCH ===== */
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const d = tx - e.changedTouches[0].clientX;
+  if (Math.abs(d) > 50) { d > 0 ? next() : prev(); }
+});
+
+/* ===== INIT ===== */
+slides[0].classList.add('active');
+updateUI();
+</script>
+</body>
+</html>
