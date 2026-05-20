@@ -232,8 +232,8 @@ h2.subtitle{
 
 /* ===== BAR CHART ===== */
 .bar-chart{
-  display:flex;align-items:flex-end;gap:18px;
-  height:260px;width:100%;max-width:660px;
+  display:flex;align-items:flex-end;gap:28px;
+  height:380px;width:100%;max-width:740px;
   justify-content:center;padding-bottom:36px;position:relative;
 }
 .bar-chart::after{
@@ -245,7 +245,7 @@ h2.subtitle{
   flex:1;position:relative;z-index:1;
 }
 .bar-fill{
-  width:52px;border-radius:7px 7px 0 0;
+  width:68px;border-radius:7px 7px 0 0;
   background:linear-gradient(180deg,var(--red),rgba(209,32,32,0.35));
   transition:height 0.6s ease;
 }
@@ -279,6 +279,37 @@ h2.subtitle{
   font-size:10.5px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
 }
 .badge-red{background:var(--red-dim);color:var(--red);}
+
+/* ===== ICP PROFILE CARD ===== */
+.icp-profile{
+  width:100%;max-width:960px;
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;text-align:left;
+}
+.icp-profile.t1-border{border-color:var(--red);}
+.icp-left{padding:28px 30px;border-right:1px solid var(--border);}
+.icp-right{padding:28px 30px;display:flex;flex-direction:column;gap:16px;}
+.icp-tag{
+  font-size:10px;font-weight:700;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--red);margin-bottom:4px;
+}
+.icp-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.icp-archetype{font-size:13px;color:var(--sub);line-height:1.55;margin-bottom:14px;font-style:italic;}
+.icp-row{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:14px;}
+.icp-datum{flex:1;min-width:100px;}
+.icp-datum .dl{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.icp-datum .dv{font-size:14px;font-weight:600;color:var(--text);}
+.icp-section-lbl{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.icp-pills{display:flex;flex-wrap:wrap;gap:6px;}
+.icp-pill{
+  background:var(--red-dim);color:var(--red);
+  font-size:11px;font-weight:600;padding:4px 10px;
+  border-radius:100px;white-space:nowrap;
+}
+.icp-pill.muted{background:rgba(255,255,255,0.04);color:var(--sub);}
+.icp-examples{font-size:12.5px;color:var(--sub);line-height:1.55;}
+.icp-examples strong{color:var(--text);font-weight:600;}
 </style>
 </head>
 <body>
@@ -408,13 +439,6 @@ h2.subtitle{
     </div>
   </div>
 
-  <!-- S6: No-DC counter narrative -->
-  <div class="slide" data-chapter="1">
-    <div class="slide-inner">
-      <p class="statement"><em>No local data center.</em><br>99% client retention is the proof.<br>Practitioner delivery outperforms local alternatives.</p>
-    </div>
-  </div>
-
   <!-- ========= CH 2: ICP SEGMENTATION ========= -->
 
   <!-- S7: Divider -->
@@ -459,10 +483,10 @@ h2.subtitle{
       <div class="label">Account Scoring — Days 1–20</div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:860px;">
 
-        <!-- Row 1: Build List — narrowest (top of pyramid) -->
-        <div style="width:44%;background:var(--bg-card);border:1px solid var(--red);border-radius:12px;padding:18px 28px;text-align:center;">
-          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:5px;">Build List</div>
-          <div style="font-size:12.5px;color:#c8c8c8;line-height:1.5;">150–200 accounts via LinkedIn + ZoomInfo</div>
+        <!-- Row 1: Build List — widest (top of funnel) -->
+        <div style="width:100%;background:var(--bg-card);border:1px solid var(--red);border-radius:12px;padding:18px 28px;text-align:center;">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:5px;">Build List — 150–200 Accounts</div>
+          <div style="font-size:12.5px;color:#c8c8c8;line-height:1.5;">LinkedIn Sales Nav + ZoomInfo + partner referral lists</div>
         </div>
 
         <!-- Connector -->
@@ -471,8 +495,8 @@ h2.subtitle{
           <div style="color:var(--red);font-size:13px;opacity:0.7;">▼</div>
         </div>
 
-        <!-- Row 2: Score — slightly wider -->
-        <div style="width:62%;background:var(--bg-card);border:1px solid rgba(209,32,32,0.55);border-radius:12px;padding:18px 28px;text-align:center;">
+        <!-- Row 2: Score — medium width -->
+        <div style="width:70%;background:var(--bg-card);border:1px solid rgba(209,32,32,0.55);border-radius:12px;padding:18px 28px;text-align:center;">
           <div style="font-size:14px;font-weight:700;color:rgba(209,32,32,0.85);margin-bottom:5px;">Score Each Account (0–8)</div>
           <div style="font-size:12.5px;color:#c8c8c8;line-height:1.5;">VMware pain · Compliance severity · DR gap · IT headcount</div>
         </div>
@@ -483,7 +507,7 @@ h2.subtitle{
           <div style="color:rgba(209,32,32,0.6);font-size:13px;opacity:0.7;">▼</div>
         </div>
 
-        <!-- Row 3: Three tiers — full width (base of pyramid) -->
+        <!-- Row 3: Three tiers — narrowest (bottom of funnel) -->
         <div style="width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
           <div style="background:var(--bg-card);border:1px solid rgba(209,32,32,0.35);border-radius:12px;padding:16px 18px;text-align:center;">
             <div style="font-size:13px;font-weight:700;color:rgba(209,32,32,0.7);margin-bottom:4px;">Tier 1 — Score 6–8</div>
@@ -503,6 +527,186 @@ h2.subtitle{
     </div>
   </div>
 
+  <!-- S10: ICP Profile 1 — Tech / Finance / Software -->
+  <div class="slide" data-chapter="2">
+    <div class="slide-inner">
+      <div class="label">ICP Profile 1 — Tier 1 Primary Outbound</div>
+      <div class="icp-profile t1-border">
+        <div class="icp-left">
+          <div class="icp-tag">Tech · Finance · Software</div>
+          <div class="icp-title">The VMware-Trapped Innovator</div>
+          <div class="icp-archetype">Mid-market firm running VMware on-prem or in colo, hit with 3–5× Broadcom renewal shock. IT team stretched thin. Leadership wants AI but can't risk PHI/PCI data in public cloud.</div>
+          <div class="icp-row">
+            <div class="icp-datum"><div class="dl">Revenue</div><div class="dv">$25M – $500M</div></div>
+            <div class="icp-datum"><div class="dl">Headcount</div><div class="dv">200 – 2,000</div></div>
+            <div class="icp-datum"><div class="dl">Cycle</div><div class="dv">60 – 120 days</div></div>
+          </div>
+          <div class="icp-row">
+            <div class="icp-datum"><div class="dl">Champion</div><div class="dv">VP Infrastructure / CTO</div></div>
+            <div class="icp-datum"><div class="dl">Econ Buyer</div><div class="dv">CIO / CFO</div></div>
+          </div>
+          <div class="icp-section-lbl">DFW Examples</div>
+          <div class="icp-examples">
+            <strong>Alkami Technology</strong> — Plano, banking SaaS (~$350M rev)<br>
+            <strong>Trintech</strong> — Dallas, financial close software<br>
+            <strong>Independent Financial</strong> — McKinney, regional bank
+          </div>
+        </div>
+        <div class="icp-right">
+          <div>
+            <div class="icp-section-lbl">Pain Triggers</div>
+            <div class="icp-pills">
+              <span class="icp-pill">Broadcom 3–5× Shock</span>
+              <span class="icp-pill">Data Sovereignty Gap</span>
+              <span class="icp-pill">AI Blocked by Compliance</span>
+              <span class="icp-pill">FTE Drain on Infra</span>
+            </div>
+          </div>
+          <div>
+            <div class="icp-section-lbl">Expedient Wedge</div>
+            <div class="icp-pills">
+              <span class="icp-pill">VCFaaS / Nutanix Migration</span>
+              <span class="icp-pill">AI CTRL Platform</span>
+            </div>
+          </div>
+          <div>
+            <div class="icp-section-lbl">Intent Signals to Score</div>
+            <div class="icp-pills">
+              <span class="icp-pill muted">VMware renewal in &lt;6mo</span>
+              <span class="icp-pill muted">Hiring Infra / Cloud roles</span>
+              <span class="icp-pill muted">New CTO / CIO (90-day window)</span>
+              <span class="icp-pill muted">Recent funding event</span>
+            </div>
+          </div>
+          <div>
+            <div class="icp-section-lbl">Expansion Path</div>
+            <div class="icp-examples">VMware migration → Managed Private Cloud → AI CTRL pilot → Multi-year EA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S11: ICP Profile 2 — Healthcare / Life Sciences -->
+  <div class="slide" data-chapter="2">
+    <div class="slide-inner">
+      <div class="label">ICP Profile 2 — Tier 1 / Tier 2 Hybrid</div>
+      <div class="icp-profile t1-border">
+        <div class="icp-left">
+          <div class="icp-tag">Healthcare · Life Sciences</div>
+          <div class="icp-title">The Compliance-Mandated Operator</div>
+          <div class="icp-archetype">Regional health system or specialty practice group with HIPAA DR mandate and aging backup infrastructure. Audit pressure rising. PHI can't touch public cloud without dedicated controls.</div>
+          <div class="icp-row">
+            <div class="icp-datum"><div class="dl">Revenue</div><div class="dv">$25M – $300M</div></div>
+            <div class="icp-datum"><div class="dl">Headcount</div><div class="dv">100 – 1,500</div></div>
+            <div class="icp-datum"><div class="dl">Cycle</div><div class="dv">45 – 90 days</div></div>
+          </div>
+          <div class="icp-row">
+            <div class="icp-datum"><div class="dl">Champion</div><div class="dv">Dir of IT / CISO</div></div>
+            <div class="icp-datum"><div class="dl">Econ Buyer</div><div class="dv">VP Operations / CFO</div></div>
+          </div>
+          <div class="icp-section-lbl">DFW Examples</div>
+          <div class="icp-examples">
+            <strong>JPS Health Network</strong> — Fort Worth, public hospital system<br>
+            <strong>Scottish Rite for Children</strong> — Dallas, specialty pediatric<br>
+            <strong>United Surgical Partners</strong> — Addison, ambulatory surgery (~$15B parent, mid-market IT)
+          </div>
+        </div>
+        <div class="icp-right">
+          <div>
+            <div class="icp-section-lbl">Pain Triggers</div>
+            <div class="icp-pills">
+              <span class="icp-pill">HIPAA DR Mandate</span>
+              <span class="icp-pill">Aging Backup Infra</span>
+              <span class="icp-pill">PHI Data Sovereignty</span>
+              <span class="icp-pill">Audit Near-Miss</span>
+            </div>
+          </div>
+          <div>
+            <div class="icp-section-lbl">Expedient Wedge</div>
+            <div class="icp-pills">
+              <span class="icp-pill">DRaaS (Zerto)</span>
+              <span class="icp-pill">Managed Compliance</span>
+            </div>
+          </div>
+          <div>
+            <div class="icp-section-lbl">Intent Signals to Score</div>
+            <div class="icp-pills">
+              <span class="icp-pill muted">HIPAA audit scheduled</span>
+              <span class="icp-pill muted">DR contract expiring</span>
+              <span class="icp-pill muted">Hiring compliance / security</span>
+              <span class="icp-pill muted">M&A or new facility</span>
+            </div>
+          </div>
+          <div>
+            <div class="icp-section-lbl">Expansion Path</div>
+            <div class="icp-examples">DRaaS → Managed Private Cloud → Managed Compliance → AI CTRL for clinical data</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S12: ICP Profile 3 — Manufacturing / Distribution -->
+  <div class="slide" data-chapter="2">
+    <div class="slide-inner">
+      <div class="label">ICP Profile 3 — Tier 2 Partner-Assisted</div>
+      <div class="icp-profile">
+        <div class="icp-left">
+          <div class="icp-tag">Manufacturing · Distribution</div>
+          <div class="icp-title">The Hybrid Modernizer</div>
+          <div class="icp-archetype">Mid-market manufacturer with VMware sprawl across plants, OT/IT convergence pressure, and no dedicated cloud team. DR is ad hoc. Supply chain digitization demands reliable infra they can't build alone.</div>
+          <div class="icp-row">
+            <div class="icp-datum"><div class="dl">Revenue</div><div class="dv">$25M – $500M</div></div>
+            <div class="icp-datum"><div class="dl">Headcount</div><div class="dv">200 – 2,000</div></div>
+            <div class="icp-datum"><div class="dl">Cycle</div><div class="dv">60 – 120 days</div></div>
+          </div>
+          <div class="icp-row">
+            <div class="icp-datum"><div class="dl">Champion</div><div class="dv">VP IT / Plant IT Director</div></div>
+            <div class="icp-datum"><div class="dl">Econ Buyer</div><div class="dv">CIO / COO</div></div>
+          </div>
+          <div class="icp-section-lbl">DFW Examples</div>
+          <div class="icp-examples">
+            <strong>Encore Wire</strong> — McKinney, copper wire mfg (~$2B rev)<br>
+            <strong>Andrews Distributing</strong> — Dallas, beverage distribution<br>
+            <strong>Peerless Mfg</strong> — Dallas, industrial filtration
+          </div>
+        </div>
+        <div class="icp-right">
+          <div>
+            <div class="icp-section-lbl">Pain Triggers</div>
+            <div class="icp-pills">
+              <span class="icp-pill">VMware Sprawl in Plants</span>
+              <span class="icp-pill">No Dedicated Cloud Team</span>
+              <span class="icp-pill">Ad Hoc DR</span>
+              <span class="icp-pill">OT/IT Convergence</span>
+            </div>
+          </div>
+          <div>
+            <div class="icp-section-lbl">Expedient Wedge</div>
+            <div class="icp-pills">
+              <span class="icp-pill">DRaaS + VMware Migration</span>
+              <span class="icp-pill">Managed Private Cloud</span>
+            </div>
+          </div>
+          <div>
+            <div class="icp-section-lbl">Intent Signals to Score</div>
+            <div class="icp-pills">
+              <span class="icp-pill muted">VMware renewal upcoming</span>
+              <span class="icp-pill muted">New plant / facility opening</span>
+              <span class="icp-pill muted">Supply chain digitization news</span>
+              <span class="icp-pill muted">Hiring IT infra roles</span>
+            </div>
+          </div>
+          <div>
+            <div class="icp-section-lbl">Expansion Path</div>
+            <div class="icp-examples">DR + VMware path → Full Managed Infra → Pure Storage upgrade → AI CTRL for operations</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ========= CH 3: PHASE 1 ========= -->
 
   <!-- S10: Divider -->
@@ -514,11 +718,11 @@ h2.subtitle{
     </div>
   </div>
 
-  <!-- S11: Phase 1 targets -->
+  <!-- Phase 1 targets (merged) -->
   <div class="slide" data-chapter="3">
     <div class="slide-inner">
-      <div class="label">Phase 1 Targets</div>
-      <div class="stat-row">
+      <div class="label">Phase 1 — 90-Day Targets</div>
+      <div class="stat-row" style="margin-bottom:18px;">
         <div class="stat-card">
           <div class="sn">$150K</div>
           <div class="sl">Revenue Closed<br>Q1</div>
@@ -536,10 +740,24 @@ h2.subtitle{
           <div class="sl">Active<br>POCs</div>
         </div>
       </div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="sn">20–25</div>
+          <div class="sl">First Meetings<br>Booked</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">10–14</div>
+          <div class="sl">Qualified<br>Opportunities</div>
+        </div>
+        <div class="stat-card">
+          <div class="sn">3–5</div>
+          <div class="sl">Partner Co-Sell<br>Registrations</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- S12: Three wedge plays -->
+  <!-- Three wedge plays -->
   <div class="slide" data-chapter="3">
     <div class="slide-inner">
       <div class="label">Three Time-Sensitive Wedge Plays</div>
@@ -560,52 +778,26 @@ h2.subtitle{
     </div>
   </div>
 
-  <!-- S13: 90-day numeric targets -->
-  <div class="slide" data-chapter="3">
-    <div class="slide-inner">
-      <div class="label">90-Day Numeric Targets</div>
-      <div class="stat-row">
-        <div class="stat-card">
-          <div class="sn">20–25</div>
-          <div class="sl">First Meetings<br>Booked</div>
-        </div>
-        <div class="stat-card">
-          <div class="sn">10–14</div>
-          <div class="sl">Qualified<br>Opportunities</div>
-        </div>
-        <div class="stat-card">
-          <div class="sn">3–5</div>
-          <div class="sl">Partner Co-Sell<br>Registrations</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- S14: Partner activation -->
   <div class="slide" data-chapter="3">
     <div class="slide-inner">
       <div class="label">Partner Activation — Day 1</div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:560px;">
-
-        <div class="fb" style="width:100%;text-align:center;">
-          <h4>Pure Storage</h4>
-          <p>Elite MSP Partner. DFW co-sell for high-performance workloads. Activate Week 1.</p>
+      <div class="c3">
+        <div class="cc" style="border-color:var(--red);">
+          <div class="cp" style="font-size:18px;">Pure Storage</div>
+          <h4>Elite MSP Partner</h4>
+          <p>DFW co-sell for high-performance workloads. Activate Week 1.</p>
         </div>
-
-        <div style="font-size:28px;font-weight:700;color:var(--red);line-height:1;padding:10px 0;">+</div>
-
-        <div class="fb" style="width:100%;text-align:center;">
-          <h4>Nutanix + VMware</h4>
-          <p>Dual SPOTY 2025. Credibility in every Broadcom displacement. 2–3 opps by Day 60.</p>
+        <div class="cc" style="border-color:rgba(209,32,32,0.5);">
+          <div class="cp" style="font-size:18px;">Nutanix + VMware</div>
+          <h4>Dual SPOTY 2025</h4>
+          <p>Credibility in every Broadcom displacement. 2–3 opps by Day 60.</p>
         </div>
-
-        <div style="font-size:28px;font-weight:700;color:var(--red);line-height:1;padding:10px 0;">+</div>
-
-        <div class="fb" style="width:100%;text-align:center;">
-          <h4>Zerto</h4>
+        <div class="cc" style="border-color:rgba(209,32,32,0.3);">
+          <div class="cp" style="font-size:18px;">Zerto</div>
+          <h4>Growth Partner 2025</h4>
           <p>Fastest path to DR pipeline. Healthcare + FinServ priority. 3–5 opps by Day 60.</p>
         </div>
-
       </div>
     </div>
   </div>
@@ -650,31 +842,36 @@ h2.subtitle{
   <div class="slide" data-chapter="4">
     <div class="slide-inner">
       <div class="label">Mutual Action Plan — Every Deal &gt;$50K ACV</div>
-      <div class="flow-row">
-        <div class="fb">
-          <h4>Wk 1</h4>
-          <p>Discovery + SOC 2 Type II submitted</p>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:0;width:100%;max-width:680px;text-align:left;">
+        <!-- Wk 1 -->
+        <div style="display:flex;flex-direction:column;align-items:center;padding:0 24px 0 0;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">1</div>
+          <div style="width:2px;flex:1;background:rgba(209,32,32,0.3);"></div>
         </div>
-        <div class="fa">→</div>
-        <div class="fb">
-          <h4>Wk 2</h4>
-          <p>Technical scope + hypervisor path locked</p>
+        <div style="padding:6px 0 24px;"><div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;">Week 1</div><div style="font-size:13px;color:var(--sub);line-height:1.5;">Discovery + SOC 2 Type II submitted</div></div>
+        <!-- Wk 2 -->
+        <div style="display:flex;flex-direction:column;align-items:center;padding:0 24px 0 0;">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(209,32,32,0.75);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">2</div>
+          <div style="width:2px;flex:1;background:rgba(209,32,32,0.25);"></div>
         </div>
-        <div class="fa">→</div>
-        <div class="fb">
-          <h4>Wk 3–5</h4>
-          <p>POC: DR failover or VMware assessment</p>
+        <div style="padding:6px 0 24px;"><div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;">Week 2</div><div style="font-size:13px;color:var(--sub);line-height:1.5;">Technical scope + hypervisor path locked</div></div>
+        <!-- Wk 3-5 -->
+        <div style="display:flex;flex-direction:column;align-items:center;padding:0 24px 0 0;">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(209,32,32,0.55);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">3–5</div>
+          <div style="width:2px;flex:1;background:rgba(209,32,32,0.2);"></div>
         </div>
-        <div class="fa">→</div>
-        <div class="fb">
-          <h4>Wk 6–8</h4>
-          <p>TCO model + expansion preview</p>
+        <div style="padding:6px 0 24px;"><div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;">Weeks 3–5</div><div style="font-size:13px;color:var(--sub);line-height:1.5;">POC: DR failover or VMware assessment</div></div>
+        <!-- Wk 6-8 -->
+        <div style="display:flex;flex-direction:column;align-items:center;padding:0 24px 0 0;">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(209,32,32,0.35);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">6–8</div>
+          <div style="width:2px;flex:1;background:rgba(209,32,32,0.15);"></div>
         </div>
-        <div class="fa">→</div>
-        <div class="fb">
-          <h4>Wk 9–10</h4>
-          <p>Multi-year MRR proposal + legal</p>
+        <div style="padding:6px 0 24px;"><div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;">Weeks 6–8</div><div style="font-size:13px;color:var(--sub);line-height:1.5;">TCO model + expansion preview</div></div>
+        <!-- Wk 9-10 -->
+        <div style="display:flex;flex-direction:column;align-items:center;padding:0 24px 0 0;">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(209,32,32,0.2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">9+</div>
         </div>
+        <div style="padding:6px 0 0;"><div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;">Weeks 9–10</div><div style="font-size:13px;color:var(--sub);line-height:1.5;">Multi-year MRR proposal + legal</div></div>
       </div>
     </div>
   </div>
@@ -767,9 +964,9 @@ h2.subtitle{
       <div class="label">Customer Business Review Cadence</div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:780px;">
 
-        <!-- Row 1: Day 60 — widest (top of pyramid) -->
-        <div style="width:100%;background:var(--bg-card);border:1px solid var(--red);border-radius:12px;padding:18px 28px;text-align:center;">
-          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:5px;">Day 60</div>
+        <!-- Row 1: Day 60 — narrowest (first touchpoint) -->
+        <div style="width:52%;background:var(--bg-card);border:1px solid var(--red);border-radius:12px;padding:18px 28px;text-align:center;">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:5px;">Day 60 Check-In</div>
           <div style="font-size:12.5px;color:#c8c8c8;line-height:1.5;">Adoption health: uptime, SLA, support tickets — identify first expansion signal</div>
         </div>
 
@@ -780,7 +977,7 @@ h2.subtitle{
         </div>
 
         <!-- Row 2: Quarterly EBR — medium -->
-        <div style="width:78%;background:var(--bg-card);border:1px solid rgba(209,32,32,0.55);border-radius:12px;padding:18px 28px;text-align:center;">
+        <div style="width:76%;background:var(--bg-card);border:1px solid rgba(209,32,32,0.55);border-radius:12px;padding:18px 28px;text-align:center;">
           <div style="font-size:14px;font-weight:700;color:rgba(209,32,32,0.85);margin-bottom:5px;">Quarterly EBR</div>
           <div style="font-size:12.5px;color:#c8c8c8;line-height:1.5;">Outcomes delivered, TCO review, maturity roadmap: DR → Cloud → AI CTRL → Compliance</div>
         </div>
@@ -791,9 +988,9 @@ h2.subtitle{
           <div style="color:rgba(209,32,32,0.6);font-size:13px;opacity:0.7;">▼</div>
         </div>
 
-        <!-- Row 3: Annual Review — narrowest (base) -->
-        <div style="width:56%;background:var(--bg-card);border:1px solid rgba(209,32,32,0.25);border-radius:12px;padding:18px 28px;text-align:center;">
-          <div style="font-size:14px;font-weight:700;color:rgba(209,32,32,0.55);margin-bottom:5px;">Annual Review</div>
+        <!-- Row 3: Annual Review — widest (deepest relationship) -->
+        <div style="width:100%;background:var(--bg-card);border:1px solid rgba(209,32,32,0.25);border-radius:12px;padding:18px 28px;text-align:center;">
+          <div style="font-size:14px;font-weight:700;color:rgba(209,32,32,0.55);margin-bottom:5px;">Annual Strategic Review</div>
           <div style="font-size:12.5px;color:#c8c8c8;line-height:1.5;">Multi-year renewal + reference customer + co-marketing opportunity</div>
         </div>
 
@@ -819,22 +1016,22 @@ h2.subtitle{
       <div class="bar-chart">
         <div class="bar-col">
           <div class="bar-val">$75K</div>
-          <div class="bar-fill" style="height:54px"></div>
+          <div class="bar-fill" style="height:92px"></div>
           <div class="bar-lbl">Q1</div>
         </div>
         <div class="bar-col">
           <div class="bar-val">$250K</div>
-          <div class="bar-fill" style="height:180px"></div>
+          <div class="bar-fill" style="height:306px"></div>
           <div class="bar-lbl">Q2</div>
         </div>
         <div class="bar-col">
           <div class="bar-val">$250K</div>
-          <div class="bar-fill" style="height:180px"></div>
+          <div class="bar-fill" style="height:306px"></div>
           <div class="bar-lbl">Q3</div>
         </div>
         <div class="bar-col">
           <div class="bar-val">$175K</div>
-          <div class="bar-fill" style="height:126px"></div>
+          <div class="bar-fill" style="height:214px"></div>
           <div class="bar-lbl">Q4</div>
         </div>
       </div>
@@ -852,13 +1049,6 @@ h2.subtitle{
         <tr><td>Q3</td><td>3–4</td><td>$200–250K</td><td>$50–75K</td><td>$250–325K</td><td class="hl">$575–775K</td></tr>
         <tr><td>Q4</td><td>2–3</td><td>$100–175K</td><td>$75–100K</td><td>$175–275K</td><td class="hl">$750K–1.05M</td></tr>
       </table>
-    </div>
-  </div>
-
-  <!-- S27: Pacing rationale -->
-  <div class="slide" data-chapter="6">
-    <div class="slide-inner">
-      <p class="statement">Q1 is deliberately light.<br><em>3–9 month cycles mean Q1 pipeline closes in Q2.</em><br>Expansion accelerates the back half.</p>
     </div>
   </div>
 
@@ -886,19 +1076,6 @@ h2.subtitle{
         <tr><td>AI CTRL Attach Rate</td><td class="hl">30–40%</td><td>&lt;15% by Mo 9</td><td>Demo in every Tier 1 discovery</td></tr>
         <tr><td>Expansion NDR</td><td class="hl">120%+</td><td>&lt;105% at Mo 9</td><td>Accelerate CBRs</td></tr>
       </table>
-    </div>
-  </div>
-
-  <!-- S30: Mitigation -->
-  <div class="slide" data-chapter="7">
-    <div class="slide-inner">
-      <div class="label">Mitigation Playbook</div>
-      <ul class="mlist">
-        <li><span class="ln">01</span>Pipeline low → Accelerate Pure Storage + Nutanix + Zerto co-sell sprint</li>
-        <li><span class="ln">02</span>Win rate low → Add InfoSec to MAP Week 1; sharpen TCO model</li>
-        <li><span class="ln">03</span>Cycle &gt;120d → Enforce MAP; escalate to exec sponsor immediately</li>
-        <li><span class="ln">04</span>ACV too low → Qualify for private cloud expansion at close</li>
-      </ul>
     </div>
   </div>
 
@@ -951,61 +1128,18 @@ h2.subtitle{
     </div>
   </div>
 
-  <!-- ========= CH 9: STRATEGIC LEVERAGE ========= -->
+  <!-- ========= CH 9: WHY THIS WINS ========= -->
 
-  <!-- S34: Divider -->
+  <!-- Divider -->
   <div class="slide divider-slide" data-chapter="9">
     <div class="slide-inner">
       <div class="div-num">09</div>
-      <div class="div-title">Strategic Leverage Plays</div>
-      <div class="div-sub">Four High-Impact Pipeline Accelerators</div>
-    </div>
-  </div>
-
-  <!-- S35: Plays overview -->
-  <div class="slide" data-chapter="9">
-    <div class="slide-inner">
-      <div class="sbs">
-        <div class="sc red-col">
-          <h3>AI CTRL Wedge</h3>
-          <p>4–6 pilots in H2. $150–300K ACV uplift. Target: Finance, Software, Healthcare. "You can't use ChatGPT with that data — AI CTRL can."</p>
-        </div>
-        <div class="sc">
-          <h3>Broadcom Sprint</h3>
-          <p>6–8 VMware displacement opps by Month 6. Map every Tier 1/2 for renewal timing. Dual SPOTY 2025 = most credible DFW offer.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- S36: Plays 2 -->
-  <div class="slide" data-chapter="9">
-    <div class="slide-inner">
-      <div class="sbs">
-        <div class="sc red-col">
-          <h3>DR as First Foothold</h3>
-          <p>4–6 DR-first engagements Q1–Q2. 60–70% expand to managed cloud within 18 months. Lowest buyer risk, fastest evaluation cycle.</p>
-        </div>
-        <div class="sc">
-          <h3>Pure Storage Co-Sell</h3>
-          <p>3–5 co-sell opportunities by Month 6. $100–250K influenced pipeline. Activate DFW channel team Week 1.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========= CH 10: WHY THIS WINS ========= -->
-
-  <!-- S37: Divider -->
-  <div class="slide divider-slide" data-chapter="10">
-    <div class="slide-inner">
-      <div class="div-num">10</div>
       <div class="div-title">Why This Plan Wins</div>
     </div>
   </div>
 
-  <!-- S38: 5 reasons -->
-  <div class="slide" data-chapter="10">
+  <!-- 5 reasons -->
+  <div class="slide" data-chapter="9">
     <div class="slide-inner">
       <ul class="mlist">
         <li><span class="ln">01</span><strong style="color:var(--text)">Unmatched credentials.</strong> #3 MSP globally · VMware VCFaaS POTY · Nutanix SPOTY · Zerto GPOTY · Pure Storage Elite</li>
@@ -1017,8 +1151,8 @@ h2.subtitle{
     </div>
   </div>
 
-  <!-- S39: Closing hero -->
-  <div class="slide" data-chapter="10">
+  <!-- Closing hero -->
+  <div class="slide" data-chapter="9">
     <div class="slide-inner">
       <div style="font-size:clamp(18px,2.2vw,28px);font-weight:700;color:#ffffff;letter-spacing:0.01em;margin-bottom:28px;">Let's Build Something in Texas</div>
       <div class="hero-num">$920K+</div>
@@ -1043,7 +1177,6 @@ const chapters = [
   { short: "Revenue Waterfall" },
   { short: "KPIs & Risk" },
   { short: "Competitive Positioning" },
-  { short: "Strategic Leverage" },
   { short: "Why This Wins" }
 ];
 
